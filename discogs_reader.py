@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import time
 
 
-# enter minomum ratio of want to have: want/have
+# enter minimum ratio of want to have: want/have
 target_minimum_ratio = 2
 
 # discogs token
@@ -20,13 +20,13 @@ if "page" not in discogs_search_webpage:
 
 # which search pages
 search_pages_begin = 3
-search_pages_stop =  5
+search_pages_stop =  4
 
 release_list=[]
 link_should_contain     = ["release", "master"]
 link_should_not_contain = ["search", "seller","add?","sort=have"]   
 
-for page in range(search_pages_begin,search_pages_stop):
+for page in range(search_pages_begin,search_pages_stop+1):
 
     link_elements = discogs_search_webpage.split("=")
     link_elements[-1] = str(page) 
@@ -80,8 +80,8 @@ for rel in release_list:
         elif "members want this" in stat_str:
             stat_str = stat_str.split(" ")
             want=float(stat_str[stat_str.index("members")-1])    
+            
     #print("want/have",want/have)
-    
 
     if want/have >= target_minimum_ratio:  
         print("https://www.discogs.com" + rel)
